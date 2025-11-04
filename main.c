@@ -11,18 +11,9 @@
 
 bool running = true;
 
-inline void Update() {
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_WINDOWEVENT_CLOSE:
-                running = false;
+void UpdateApp(SDL_Window*);
 
-                break;
-        }
-    }
-}
-int SDL_main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
         SDL_Log("SDL_Init Error: %s\n", SDL_GetError());
         SDL_Quit();
@@ -36,8 +27,24 @@ int SDL_main(int argc, char *argv[]) {
     }
 
     while (running) {
-        Update();
+        UpdateApp(win);
     }
 
     SDL_Quit();
+    return 0;
+}
+
+void UpdateApp(SDL_Window* win) {
+    SDL_Event event;
+    while(SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                running = false;
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }
