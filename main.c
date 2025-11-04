@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
 }
 
 void UpdateApp(SDL_Window* win) {
+    // events
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
