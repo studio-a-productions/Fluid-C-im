@@ -12,7 +12,7 @@ int AppInit(SDL_Window** win, const int S_W, const int S_H) {
         return -1;
     }
     *win = SDL_CreateWindow("Fluid Sim", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, S_W, S_H, SDL_WINDOW_SHOWN);
-    if (!win) {
+    if (!*win) {
         SDL_Log("SDL_Window Error %s\n", SDL_GetError());
         SDL_Quit();
         return -1;
