@@ -6,7 +6,7 @@
 
 extern bool AppRunning;
 
-int AppInit(SDL_Window*, const int, const int);
+int AppInit(SDL_Window**, const int, const int);
 void AppUpdate(SDL_Window*);
 int AppQuit(SDL_Window*);
 

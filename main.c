@@ -12,7 +12,7 @@ void UpdateDisplay();
 int main(int argc, char *argv[]) {
     SDL_Window* win = NULL;
 
-    if(AppInit(win, W_W, W_H)) {
+    if(AppInit(&win, W_W, W_H)) {
         SDL_Quit();
         exit(-1);
     }
