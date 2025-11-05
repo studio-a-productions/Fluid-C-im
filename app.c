@@ -22,12 +22,15 @@ int AppInit(SDL_Window* win, const int S_W, const int S_H) {
 }
 
 void AppUpdate(SDL_Window* win) {
-    // events
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
                 AppRunning = false;
+                break;
+            case SDL_WINDOWEVENT_DISPLAY_CHANGED:
+                // the window will automatically try to resize itself to not take up 100% of the screen
+                // but only if the window/app mode is not fullscreen or supposed to be fullscreen
                 break;
             default:
                 break;
