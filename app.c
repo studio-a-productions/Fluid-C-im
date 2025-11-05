@@ -21,7 +21,7 @@ int AppInit(SDL_Window** win, const int S_W, const int S_H) {
     return 0;
 }
 
-void AppUpdate(SDL_Window* win) {
+void AppUpdate(SDL_Window** win) {
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -38,13 +38,14 @@ void AppUpdate(SDL_Window* win) {
     }
 }
 
-int AppQuit(SDL_Window* win) {
+int AppQuit(SDL_Window** win) {
     if (AppRunning) {
         SDL_Log("AppQuit Error: App still running");
         return -1;
     }
 
-    SDL_DestroyWindow(win);
+    SDL_DestroyWindow(*win);
+    *win = NULL;
     SDL_Quit();
 
     return 0;

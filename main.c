@@ -18,10 +18,10 @@ int main(int argc, char *argv[]) {
     }
 
     while (AppRunning) {
-        AppUpdate(win);
+        AppUpdate(&win);
     }
 
-    if (AppQuit(win)) {
+    if (AppQuit(&win)) {
         SDL_Quit();
         exit(-1);
     }
