@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-SRC="main.c"
+SRC="app.c main.c"
 OUT="fluidsim"
 CFLAGS="$(sdl2-config --cflags)"
 LIBS="$(sdl2-config --libs)"
