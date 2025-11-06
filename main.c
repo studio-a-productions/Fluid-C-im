@@ -14,8 +14,7 @@ void UpdateDisplay();
 
 int main(int argc, char *argv[]) {
     if(AppInit(W_W, W_H)) {
-        SDL_Quit();
-        AppQuit();
+        if (AppQuit()) SDL_Quit();
         return 1;
     }
 

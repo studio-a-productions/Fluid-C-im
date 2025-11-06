@@ -10,7 +10,6 @@ int AppInit(const int S_W, const int S_H) {
     
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
         SDL_Log("AppInit Error w/ SDL_Init: %s\n", SDL_GetError());
-        SDL_Quit();
         return -1;
     }
     App.win = SDL_CreateWindow("Fluid Sim", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, S_W, S_H, SDL_WINDOW_SHOWN);
