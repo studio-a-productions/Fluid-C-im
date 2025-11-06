@@ -4,10 +4,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-extern bool AppRunning;
+struct AppStruct {
+    SDL_Window* win;
+    SDL_Renderer* rend;
+    bool running;
+};
 
-int AppInit(SDL_Window**, const int, const int);
-void AppUpdate(SDL_Window**);
-int AppQuit(SDL_Window**);
+
+extern struct AppStruct App;
+
+int AppInit(const int, const int);
+void AppUpdate();
+int AppQuit();
 
 #endif
