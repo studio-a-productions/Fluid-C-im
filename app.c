@@ -20,7 +20,8 @@ int AppInit(const int S_W, const int S_H) {
     }
     App.rend = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
     if (!App.rend) {
-        SDL_Log("AppUnit Error w/ SDL_Renderer: %s\n", SDL_GetError());
+        SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
+        return -1;
     }
     App.running = true;
     return 0;
