@@ -42,11 +42,11 @@ int InitCimPBuffer(int icapacity) {
 }
 
 int FreeCimPBuffer() {
-    if (cimPBuffer.x) free(cimPBuffer.x);
-    if (cimPBuffer.y) free(cimPBuffer.y);
-    if (cimPBuffer.vx) free(cimPBuffer.vx);
-    if (cimPBuffer.vy) free(cimPBuffer.vy);
-    if (cimPBuffer.type) free(cimPBuffer.type);
+    if (cimPBuffer.x) SDL_free(cimPBuffer.x);
+    if (cimPBuffer.y) SDL_free(cimPBuffer.y);
+    if (cimPBuffer.vx) SDL_free(cimPBuffer.vx);
+    if (cimPBuffer.vy) SDL_free(cimPBuffer.vy);
+    if (cimPBuffer.type) SDL_free(cimPBuffer.type);
 
     cimPBuffer.x = cimPBuffer.y = cimPBuffer.vx = cimPBuffer.vy = NULL;
     cimPBuffer.type = NULL;
