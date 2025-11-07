@@ -1,8 +1,7 @@
 #ifndef APP_H
 #define APP_H
-#include <SDL.h>
-#include <stdio.h>
-#include <stdbool.h>
+
+#include "cim.h"
 
 struct AppStruct {
     SDL_Window* win;
@@ -13,7 +12,7 @@ struct AppStruct {
 
 extern struct AppStruct App;
 
-int AppInit(const int, const int);
+int AppInit(const int, const int, const int);
 void AppUpdate();
 int AppQuit();
 

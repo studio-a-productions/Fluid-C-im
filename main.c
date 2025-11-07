@@ -8,12 +8,14 @@
 #define CANVAS_W 200
 #define CANVAS_H 150
 
+#define PARTICLE_BUFFER_S 100
+
 extern struct AppStruct App;
 
 void UpdateDisplay();
 
 int main(int argc, char *argv[]) {
-    if(AppInit(W_W, W_H)) {
+    if(AppInit(W_W, W_H, PARTICLE_BUFFER_S)) {
         if (AppQuit()) SDL_Quit();
         return 1;
     }
