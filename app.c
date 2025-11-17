@@ -23,10 +23,6 @@ int AppInit(const int S_W, const int S_H, const int S_PBUFF) {
         SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
         return -1;
     }
-    if(InitCimPBuffer(S_PBUFF)) {
-        SDL_Log("AppInit Error w/ InitCimPBuffer: %s\n", SDL_GetError());
-        return -1;
-    }
     App.running = true;
     return 0;
 }
@@ -51,10 +47,6 @@ void AppUpdate() {
 int AppQuit() {
     if (App.running) {
         SDL_Log("AppQuit Error: App still running.\n");
-        return -1;
-    }
-    else if (FreeCimPBuffer()) {
-        SDL_Log("AppQuit Error w/ FreeCimPBuffer.\n");
         return -1;
     }
 

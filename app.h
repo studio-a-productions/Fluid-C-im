@@ -1,14 +1,13 @@
 #ifndef APP_H
 #define APP_H
 
-#include "cim.h"
+#include "common_libs.h"
 
 struct AppStruct {
     SDL_Window* win;
     SDL_Renderer* rend;
     bool running;
 };
-
 
 extern struct AppStruct App;
 
