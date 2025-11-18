@@ -1,9 +1,10 @@
 #include "app.h"
+#include "render.h"
 
 struct AppStruct App = { NULL, NULL, false };
 
 // S_ = Size of
-int AppInit(const int S_W, const int S_H, const int S_PBUFF) {
+int AppInit(const int S_W, const int S_H) {
     if (App.running) {
         SDL_Log("AppInit Error: App is already running");
         return -1;

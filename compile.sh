@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-SRC="cim.c app.c main.c"
+SRC="cim_particle.c cim.c app.c main.c"
 OUT="fluidsim"
 CFLAGS="$(sdl2-config --cflags)"
 LIBS="$(sdl2-config --libs)"

@@ -48,3 +48,40 @@ int InitCimPBuffer(const int size); // This function will allocate the initial b
 int FreeCimPBuffer(); // Frees the memory of the initialized arrays (checks for each one)
 
 ```
+
+### PLANNED
+
+* add/get particle function
+* simulation stuff
+* (*possibly*) function to add resources or render sprites.
+
+## App API
+
+### Public 
+
+```c
+
+struct AppStruct { // App struct to contain pointers to window and renderer, not needed outside (currently)
+    SDL_Window* win;
+    SDL_Renderer* rend;
+    bool running;
+};
+
+extern struct AppStruct App; // the only App we need (why would you want two apps in one app?)
+
+int AppInit(const int width, const int height); // create the window and renderer with (initial) width and height
+void AppUpdate(); // update the window and handle input
+int AppQuit(); // Quit app, destroy window and free resource buffers
+
+```
+
+### Private 
+
+`RENDER_H` is still WIP. 
+
+### PLANNED
+
+* buffer for objects to render
+* texture buffer/atlas
+* automatic scaling
+* settings

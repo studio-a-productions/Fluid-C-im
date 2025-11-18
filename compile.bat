@@ -2,7 +2,7 @@
 setlocal
 
 :: Configuration
-set SRC=cim.c app.c main.c
+set SRC=cim_particle.c cim.c app.c main.c
 set OUT=fluidsim.exe
 set SDL_DIR=SDL2
 set INCLUDE=-I%SDL_DIR%/include/SDL2

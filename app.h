@@ -11,7 +11,7 @@ struct AppStruct {
 
 extern struct AppStruct App;
 
-int AppInit(const int, const int, const int);
+int AppInit(const int, const int);
 void AppUpdate();
 int AppQuit();
 

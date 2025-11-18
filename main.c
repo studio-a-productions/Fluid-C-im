@@ -12,25 +12,22 @@
 
 #define PARTICLE_BUFFER_S 100
 
-void UpdateDisplay();
-
 static inline int freeResources(const int exit_c) {
     if (CimQuit()) {
         if (AppQuit()) SDL_Quit();
-        exit(2); // very bad :/
+        return 2; // very bad :/
     }
-    if (AppQuit()) {
-        SDl_Quit();
+    else if (AppQuit()) {
+        SDL_Quit();
         return 1;
-    }
-    return exit_c;
+    } else return exit_c;
 }
 
 int main(int argc, char *argv[]) {
-    if(AppInit(W_W, W_H, PARTICLE_BUFFER_S)) {
+    if(AppInit(W_W, W_H)) {
         return freeResources(1);
     }
-    else if (CimInit(100)) {
+    else if (CimInit(PARTICLE_BUFFER_S)) {
         return freeResources(1);
     }
 

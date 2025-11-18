@@ -17,4 +17,6 @@ int CimQuit() {
         SDL_Log("CimExit Failed!");
         return -1;
     }
+
+    return 0;
 }
