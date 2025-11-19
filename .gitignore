@@ -1,4 +1,6 @@
 temp/
 .vscode/
-*.exe
 fluidsim
+*.exe
+*.o
+*.a
