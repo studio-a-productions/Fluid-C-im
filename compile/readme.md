@@ -1,6 +1,6 @@
 # use
 
-to use, it's very simple, just run
+to use, it's very simple, just run (from the root folder)
 
 on unix:
 
@@ -25,6 +25,7 @@ you can call:
 - `libs` for compiling *both* cim **and** app
 - `cim` for *only* compiling the *cim* library
 - `app` for *only* compiling the *app* library
+- `clean` deletes all object and library files in the root folder
 
 (all `.bat` or `.sh`)
 
