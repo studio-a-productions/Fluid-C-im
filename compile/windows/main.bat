@@ -12,7 +12,7 @@ echo Compiling...
 :: Compile
 gcc %INCLUDE% %SRC% %LIBS% -o %OUT%
 
-echo Running %out%
+echo Running %OUT%
 %OUT%
 
 endlocal
