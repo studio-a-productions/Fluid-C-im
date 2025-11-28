@@ -1,5 +1,5 @@
-#ifndef RENDER_H
-#define RENDER_H
+#ifndef APP_RENDER_H
+#define APP_RENDER_H
 #include "common_libs.h"
 
 typedef struct {
