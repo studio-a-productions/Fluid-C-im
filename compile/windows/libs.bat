@@ -3,7 +3,7 @@ setlocal
 
 cd .\compile\windows\
 
-echo Starting up compile chain
+echo Starting up compile chain...
 start _cim.bat
 start _app.bat
 

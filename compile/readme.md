@@ -26,6 +26,7 @@ you can call:
 - `cim` for *only* compiling the *cim* library
 - `app` for *only* compiling the *app* library
 - `clean` deletes all object and library files in the root folder
+- `cleana` deletes all files created (even the executable)
 
 (all `.bat` or `.sh`)
 
@@ -35,8 +36,8 @@ you can call:
 
 ## for source
 
-only edit the main.* files (windows and unix)
+only edit the main.* files (**windows *and* unix**)
 
 ## for libraries
 
-edit **both** app.* and cim.*, but also their helper variants (`_cim.*` and `_app.*`)
+edit **both** app.\* and cim.\*, but also their helper variants (`_cim.*` *and* `_app.*` not `_clean.*` *or other cleanup functions* unless you are creating other stuff (like directories for compiled assets for example))d

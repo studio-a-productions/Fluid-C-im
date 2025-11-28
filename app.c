@@ -1,5 +1,5 @@
 #include "app.h"
-#include "render.h"
+#include "app_render.h"
 
 struct AppStruct App = { NULL, NULL, false };
 
