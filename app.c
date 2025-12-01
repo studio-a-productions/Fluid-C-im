@@ -1,10 +1,15 @@
 #include "app.h"
 #include "app_render.h"
+#include "app_assets.h"
+struct AppStruct {
+    SDL_Window* win;
+    DisplayRenderer rend;
+    bool running;
+};
 
 struct AppStruct App = { NULL, NULL, false };
 
-// S_ = Size of
-int AppInit(const int S_W, const int S_H) {
+int AppInit(const int S_WW, const int S_WH, const int S_CW, const int S_CH) {
     if (App.running) {
         SDL_Log("AppInit Error: App is already running");
         return -1;
@@ -14,16 +19,27 @@ int AppInit(const int S_W, const int S_H) {
         SDL_Log("AppInit Error w/ SDL_Init: %s\n", SDL_GetError());
         return -1;
     }
-    App.win = SDL_CreateWindow("Fluid Sim", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, S_W, S_H, SDL_WINDOW_SHOWN);
+    App.win = SDL_CreateWindow("Fluid Sim", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, S_WW, S_WH, SDL_WINDOW_SHOWN);
     if (!App.win) {
         SDL_Log("AppInit Error w/ SDL_Window: %s\n", SDL_GetError());
         return -1;
     }
-    App.rend = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
-    if (!App.rend) {
+
+    DisplayRenderer renderer = {NULL, NULL, NULL};
+    renderer.renderTarget = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer.renderTarget) {
         SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
         return -1;
     }
+    if (AppCreateFrameBuffers(&renderer)) {
+        SDL_Log("AppInit Error: couldn't create frame buffers!\n");
+        return -1;
+    }
+    if (!renderer.frontFrame || !renderer.backFrame) {
+        SDL_Log("AppInit Error: frame buffers not assigned!\n");
+        return -1;
+    }
+    App.rend = renderer;
     App.running = true;
     return 0;
 }
@@ -51,14 +67,17 @@ int AppQuit() {
         return -1;
     }
 
+    AppDestroyFrameBuffers(&App.rend);
+    
+    if (App.rend.renderTarget) SDL_DestroyRenderer(App.rend.renderTarget);
     if (App.win) SDL_DestroyWindow(App.win);
-    if (App.rend) SDL_DestroyRenderer(App.rend);
+    
     App.win = NULL;
-    App.rend = NULL;
-
-
 
     SDL_Quit();
-
     return 0;
+}
+
+bool AppRunning() {
+    return App.running;
 }

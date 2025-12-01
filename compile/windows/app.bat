@@ -2,7 +2,7 @@
 setlocal
 
 :: Configuration
-set SRC=app.c
+set SRC=app.c app_render.c app_assets.c
 set OBJ=app.o
 set SDL_DIR=SDL2
 set INCLUDE=-I%SDL_DIR%/include/SDL2

@@ -24,14 +24,14 @@ static inline int freeResources(const int exit_c) {
 }
 
 int main(int argc, char *argv[]) {
-    if(AppInit(W_W, W_H)) {
+    if(AppInit(W_W, W_H, CANVAS_W, CANVAS_H)) {
         return freeResources(1);
     }
     else if (CimInit(PARTICLE_BUFFER_S)) {
         return freeResources(1);
     }
 
-    while (App.running) {
+    while (AppRunning()) {
         AppUpdate();
     }
 
