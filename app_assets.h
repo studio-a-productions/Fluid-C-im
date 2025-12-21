@@ -8,7 +8,6 @@ typedef struct {
     int a;
 } app_asset;
 
-int CreateTextureAtlas(const char*, const int*); // takes a string and an array of ints. The array of ints signals the size of each texture
-int CreateTextureAtlasFDir(const char*); // single path
+int CreateTextureAtlas(const char*); // takes a path and an array of ints.
 
 #endif

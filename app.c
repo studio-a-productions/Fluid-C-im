@@ -1,6 +1,7 @@
 #include "app.h"
 #include "app_render.h"
 #include "app_assets.h"
+
 struct AppStruct {
     SDL_Window* win;
     DisplayRenderer rend;
@@ -31,12 +32,12 @@ int AppInit(const int S_WW, const int S_WH, const int S_CW, const int S_CH) {
         SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
         return -1;
     }
-    if (AppCreateFrameBuffers(&renderer)) {
+    if (AppCreateFrameBuffer(&renderer, S_CW, S_CH)) {
         SDL_Log("AppInit Error: couldn't create frame buffers!\n");
         return -1;
     }
-    if (!renderer.frontFrame || !renderer.backFrame) {
-        SDL_Log("AppInit Error: frame buffers not assigned!\n");
+    if (!renderer.frontFrame) {
+        SDL_Log("AppInit Error: frame buffer not assigned!\n");
         return -1;
     }
     App.rend = renderer;
@@ -67,17 +68,20 @@ int AppQuit() {
         return -1;
     }
 
-    AppDestroyFrameBuffers(&App.rend);
+    AppDestroyFrameBuffer(&App.rend);
     
     if (App.rend.renderTarget) SDL_DestroyRenderer(App.rend.renderTarget);
+    else SDL_Log("APP_QUIT: No Renderer to destroy \n");
     if (App.win) SDL_DestroyWindow(App.win);
-    
+    else SDL_Log("APP_QUIT: No Window to destroy\n");
+
     App.win = NULL;
 
     SDL_Quit();
     return 0;
 }
 
+// dayum!!!
 bool AppRunning() {
     return App.running;
 }

@@ -2,6 +2,7 @@
 #define APP_H
 
 #include "common_libs.h"
+#include "app_ghelper.h"
 
 int AppInit(const int, const int, const int, const int);
 void AppUpdate();

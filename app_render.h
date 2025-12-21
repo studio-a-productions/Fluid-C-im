@@ -4,12 +4,11 @@
 
 typedef struct {
     SDL_Texture* frontFrame;
-    SDL_Texture* backFrame;
     SDL_Renderer* renderTarget;
 } DisplayRenderer;
 
-int AppCreateFrameBuffers(DisplayRenderer* curRenderer, const int S_W, const int S_H);
-int AppDestroyFrameBuffers(DisplayRenderer*curRenderer);
+int AppCreateFrameBuffer(DisplayRenderer* curRenderer, const int S_W, const int S_H);
+int AppDestroyFrameBuffer(DisplayRenderer*curRenderer);
 
 void AppRenderTexture(DisplayRenderer* curRenderer, SDL_Texture* target, bool scale);
 void AppRenderTextureAt(DisplayRenderer* curRenderer, const int x, const int y, SDL_Texture* texture);
