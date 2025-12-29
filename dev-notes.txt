@@ -1,0 +1,42 @@
+DISCLAIMER: these notes are just me yapping to myself and may contain spelling mistakes
+(I know, not proffesional)
+
+
+-- APP_RENDERER --
+TEXTURE VS SURFACE
+
+case texture:
+    using textures, I need to:
+        - make buffer render-target
+        - draw to "APP_RENDERER"
+        - converted it into a surface or upscale somehow
+    textures (sdl_textures) are abstractions of the actual data, 
+    so they can't really be used to modify stuff, unless you want to do shit
+    
+case surface:
+    using this instead i have actual control (i think)
+
+conclusion: DO RESEARCH, and don't, I BEG, don't use ChatGPT!
+
+-- RENDERING PARTICLES --
+because I'll have a lot of particles, I need to optimize the rendering, but 
+this also can't clash with the particle code... using textures means I could relly 
+on the GPU, but... it's still bound to the CPU (because fuck me)
+
+I WANT TO KILL MYSELF!
+shit bruh
+aaaaaaaaaaaaaggh
+
+-- PARTICLE DATA --
+So... SOA of AOS? AoA is something I can use in a plane. (huh?)
+Anyway...................................................;
+can't you see I don't want to talk about this? 
+
+the usual technique people use is SOA because (objectivly) it's better...
+but I'm not an object (oriented program), so what should I use?
+
+in the case of Fluid-C-im or FluidCim or whatever, it all depends on:
+    - what part of the simulation takes the longest
+    - how the simulation is structured
+    - something else called programmer luck
+conclusion? i should do research.... FAHHH

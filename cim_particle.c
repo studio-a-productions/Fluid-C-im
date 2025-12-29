@@ -54,3 +54,27 @@ int FreeCimPBuffer() {
 
     return 0;
 }
+static inline bool checkCimPBufferSize() {
+    return (cimPBuffer.used*1.5 >= cimPBuffer.capacity);
+}
+
+bool checkCimPBuffer() {
+    return checkCimPBufferSize;
+    // resize
+}
+
+int createCimP(float s_posx, float s_posy, float s_vx, float s_vy, int type) {
+    cimPBuffer.x[cimPBuffer.used] = s_posx;
+    cimPBuffer.y[cimPBuffer.used] = s_posy;
+    cimPBuffer.vx[cimPBuffer.used] = s_vx;
+    cimPBuffer.vy[cimPBuffer.used] = s_vy;
+    cimPBuffer.type[cimPBuffer.used] = type;
+
+    cimPBuffer.used++;
+    
+    if (checkCimPBufferSize()) {
+        // resize
+    } else {
+        return 0;
+    }
+}

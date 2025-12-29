@@ -1,5 +1,7 @@
 #include "app_render.h"
 
+// frame buffer 
+
 int AppCreateFrameBuffer(DisplayRenderer*curRenderer, const int S_W, const int S_H) {
     if (!curRenderer->renderTarget) {
         SDL_Log("APP_RENDER: No Renderer Present!\n");
@@ -23,7 +25,24 @@ int AppDestroyFrameBuffer(DisplayRenderer*curRenderer) {
     } 
     if (curRenderer->frontFrame) {
         SDL_DestroyTexture(curRenderer->frontFrame);
+        curRenderer->frontFrame = NULL;
     } else SDL_Log("APP_RENDER: No frame buffer to destroy");
     
     return 0;
+}
+
+// render logic
+
+static void rendertextureprivatefunctionsmth() {
+    
+}
+
+void AppRenderTexture(DisplayRenderer* curRenderer, SDL_Texture* target, uint8_t size_mode) {
+
+}
+void AppRenderTextureAt(DisplayRenderer* curRenderer, const int x, const int y, SDL_Texture* texture, uint8_t size_mode) {
+
+}
+void AppRenderInstances(DisplayRenderer* curRenderer, const int*x, const int*y, SDL_Texture* texture, uint8_t size_mode) {
+
 }

@@ -22,7 +22,7 @@ int InitCimPBuffer(int icapacity);
 
 bool checkCimPBuffer();
 
-int CreateCimP(float s_posx, float s_posy, float s_vx, float s_vy); // add a particle to the simPBuffer and return its ID
+int CreateCimP(float s_posx, float s_posy, float s_vx, float s_vy, int type); // add a particle to the simPBuffer and return its ID
 
 int FreeCimPBuffer();
 
