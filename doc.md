@@ -2,7 +2,7 @@
 
 ## outdated!!!
 
-This is outdated, I'm focussing on dev.
+This is outdated, focussing on dev. Things here will change.
 
 ## Naming Convention
 
@@ -10,17 +10,19 @@ This is outdated, I'm focussing on dev.
 
 In general, variables are short, taking the *first* **3 letters** of the variable (eg. `win` *for window*).
 
-Some variables may start with `s_` (`S_ for macros`), which usually translates to *size* or *size of*. 
+Some variables may start with `s_` (`S_ for macros`), which usually translates to *size* or *size of*. If it ands with `_s` or `_S` it usually just means `...'s size`, but can also be an alternative to *size of* or *size*.
 
 Macros and constants are usually in full caps, just as most C projects.
 
 ### Functions
 
-For public functions (exposed to `main.c`), usually it starts with the name of the API or library and then what the function does (eg. `CimInit`).
-
-`Init` for startup, `Quit` for freeing and quiting.
+This project uses a naming convention for (*public*) functions like that of SDL, starting with `lib_` and using **upercase** between words. Internal *private* functions may sometimes not follow this rule, because why not?
 
 ## Rules
+
+## invariables
+
+READ `invariables.md` FOR SPECIFICS!
 
 ### Returns
 
@@ -32,9 +34,29 @@ Function that could possibly fail are almost always `int`s, and any `non-zero` n
 
 ```c
 
-int CimInit(int pBufferSize); // Initialize all CIM components, does not include APP related stuff.
+void Cim_Init(int pBuffSize); // Initializes buffers, returns non-zero upon failure
 
-int CimQuit(); // Free resources
+void Cim_Quit(); // Closes all resources
+
+Cim_Status Cim_GetStatus(); // Returns the current status
+// There's no Cim_GetError() unless you include cim_error.h
+
+typedef enum { // Status type
+    CIM_INACTIVE, // Cim not running/no resources allocated
+    CIM_INIT, // Cim Initialized
+    CIM_ACTIVE, // Cim active, updating
+    CIM_PAUSED, // Cim active, not updating
+    CIM_ERROR // Cim ran into an error, pauzed
+} Cim_Status;
+
+typedef enum {
+    CIM_ERROR_NONE, // No error, "succes"
+    CIM_ERROR_ERROR, // Undefined error
+    CIM_ERROR_PBUFFER_ALLOC, // Alloc error within the Particle Buffer
+    CIM_ERROR_PBUFFER_INVALIDARG, // The provided argument was invalid for the Particle Buffer
+    CIM_ERROR_PBUFFER_N, // Not defined Particle Buffer error
+    CIM_ERROR_INIT, // Initialization failed
+} Cim_Error;
 
 ```
 
@@ -42,14 +64,7 @@ int CimQuit(); // Free resources
 
 ```c
 
-struct particleBuffer { // SoA (stuct of arrays)
-    float* x, *y, *vx, *vy; // these are the buffers for position (x, y) and velocity (vx, vy)
-    int* type; // array of types, each particle can be part of the type table, which will hold information like mass
-    int capacity, used; // buffer indicators, current capacity and how much is used up.
-};
-
-int InitCimPBuffer(const int size); // This function will allocate the initial buffer and checks if something went wrong.
-int FreeCimPBuffer(); // Frees the memory of the initialized arrays (checks for each one)
+// WIP
 
 ```
 
@@ -57,7 +72,8 @@ int FreeCimPBuffer(); // Frees the memory of the initialized arrays (checks for 
 
 * add/get particle function
 * simulation stuff
-* (*possibly*) function to add resources or render sprites.
+* (*possibly*) a function to add resources or render sprites.
+* a macro to remove parts of the error logging in compile-time
 
 ## App API
 

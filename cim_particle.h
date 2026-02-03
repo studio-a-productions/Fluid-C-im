@@ -2,6 +2,7 @@
 #define CIM_PARTICLE_H
 
 #include "common_libs.h"
+#include "cim.h"
 
 #define CIM_PBUFFER_UPDATE_THRESHOLD 0.9F
 #define CIM_PBUFFER_UPDATE_MULTIPLIER 1.3F
@@ -27,12 +28,12 @@ typedef enum { // all buffer indexes for the Cim particle buffer
     CIM_PBUFFER_INDEX_TYPE
 } cimPBufferIndex;
 
-int InitCimPBuffer(int icapacity);
+int Cim_InitPBuffer(int icapacity);
 
-int CheckCimPBuffer();
+int Cim_CheckPBuffer();
 
-int CreateCimP(float s_posx, float s_posy, float s_vx, float s_vy, int type); // add a particle to the simPBuffer and return its ID
+int Cim_CreateParticle(float s_posx, float s_posy, float s_vx, float s_vy, int type); // add a particle to the simPBuffer and return its ID
 
-int FreeCimPBuffer();
+int Cim_FreePBuffer();
 
 #endif

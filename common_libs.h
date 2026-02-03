@@ -1,8 +1,8 @@
 #ifndef COMMON_INC_LIBS_H
 #define COMMON_INC_LIBS_H
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <SDL.h>
+#include <stdio.h> // because everyone needs STDs
+#include <stdbool.h> // because C++ exist (for some reason)
+#include <SDL.h> // valid
 
 #endif

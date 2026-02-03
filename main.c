@@ -1,6 +1,8 @@
 #include "common_libs.h"
 #include "app.h"
+
 #include "cim.h"
+#include "cim_error.h" // to handle errors
 
 // initial window size
 // we're doing a 8:6/4:3 ratio to match the CANVAS
@@ -24,12 +26,9 @@ static inline int freeResources(const int exit_c) {
 }
 
 int main(int argc, char *argv[]) {
-    if(AppInit(W_W, W_H, CANVAS_W, CANVAS_H)) {
-        return freeResources(1);
-    }
-    else if (CimInit(PARTICLE_BUFFER_S)) {
-        return freeResources(1);
-    }
+
+    if (Cim_Init != CIM_INIT)
+        return CIM_ERROR;
 
     while (AppRunning()) {
         AppUpdate();

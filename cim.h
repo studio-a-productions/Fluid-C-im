@@ -1,16 +1,40 @@
 #ifndef CIM_H
 #define CIM_H
 
-int CimInit(int pBuffSize);
+#include "common_libs.h"
 
-int CimQuit();
+int Cim_Init(int pBuffSize);
+
+int Cim_Quit();
+
 typedef enum {
-    CIM_UNINIT,
-    CIM_INIT,
-    CIM_ACTIVE,
-    CIM_UNACTIVE,
-    CIM_PAUSED,
-    CIM_ERROR
-} cimStatus;
+    CIM_INACTIVE, // Cim not running/no resources allocated
+    CIM_INIT, // Cim Initialized
+    CIM_ACTIVE, // Cim active and updating
+    CIM_PAUSED, // Cim active, but not updating
+    CIM_ERROR // Cim ran into an error
+} Cim_Status;
+typedef enum {
+    CIM_ERROR_NONE, // No error
+    CIM_ERROR_ERROR, // well... something went wrong?
+    CIM_ERROR_PBUFFER_ALLOC, // An error happened during allocation
+    CIM_ERROR_PBUFFER_INVALIDARG, // The provided argument was invalid for the Particle Buffer
+    CIM_ERROR_PBUFFER_N, // Not defined error
+    CIM_ERROR_INIT, // Initialization failed
+    // other errors
+
+} Cim_Error;
+
+typedef enum {
+    CIM_LOGTYPE_WARNING,
+    CIM_LOGTYPE_ERROR,
+    CIM_LOGTYPE_INFO,
+    CIM_LOGTYPE_INTERNALCOMPL
+} Cim_Logtype;
+
+Cim_Status Cim_GetStatus();
+
+void Cim_SetLogging(const bool logging);
+void Cim_Log();
 
 #endif
