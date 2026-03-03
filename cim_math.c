@@ -63,7 +63,7 @@ void Normalize_Vector4(float4 *vec) {
     vec->w /= length;
 }
 
-void Clamp_Int(int* var, const int min, const int max) {
+void Clamp_Int(int*const var, const int min, const int max) {
     if (min < max)
         if (*var > max) *var = max;
         else if (*var < min) *var = min;
@@ -73,7 +73,7 @@ void Clamp_UInt(size_t*var, const size_t min, const size_t max) {
         if (*var > max) *var = max;
         else if (*var < min) *var = min;
 }
-void Clamp_Float(float* var, const float min, const float max) {
+void Clamp_Float(float*const var, const float min, const float max) {
     if (min < max)
         if (*var > max) *var = max;
         else if (*var < min) *var = min;
@@ -105,46 +105,7 @@ float NormalizeF_Float(const float var, const float min, const float max) {
     else return var;
 }
 
-void Resize_FloatBuf(buffer_float* buff, const size_t s_n) {
-    float*buff_n = SDL_realloc(buff->data, s_n);
-    if (buff_n) { buff->data = buff_n; buff->size = s_n; }
-}
-void Resize_Float2Buf(buffer_float2* buffer, const size_t new_size) {
-    const size_t alloc_size = MULT(new_size*sizeof(float), 2);
-    float *new_buffer = SDL_realloc(buffer->data, alloc_size);
-    if (new_buffer) { buffer->data = new_buffer; buffer->size = new_size; }
-}
-void Resize_Float3Buf(buffer_float3* buffer, const size_t new_size) {
-    const size_t alloc_size = new_size*sizeof(float)*3;
-    float *new_buffer = SDL_realloc(buffer->data, alloc_size);
-    if (new_buffer) { buffer->data = new_buffer; buffer->size = new_size; }
-}
-void Resize_Float4Buf(buffer_float4* buff, const size_t n_size) {
-    const size_t alloc_s = n_size*sizeof(float)*4;
-    float *n_buff = SDL_realloc(buff->data, alloc_s);
-    if (n_buff) { buff->data = n_buff; buff->size = n_size; }
-}
-
-void Set_Float(buffer_float* buff, const size_t indx, const float val) {
-    buff->data[indx] = val;
-}
-void Set_Float2(buffer_float2*buff, const size_t indx, const float2 val) {
-    buff->data[MULT(indx, 2)] = val.x;
-    buff->data[ADD(MULT(indx, 2), 1)] = val.y;
-}
-void Set_Float3(buffer_float3*buff, const size_t indx, const float3 val) {
-    buff->data[MULT(indx, 3)] = val.x;
-    buff->data[ADD(MULT(indx, 3), 1)] = val.y;
-    buff->data[ADD(MULT(indx, 3), 2)] = val.z;
-}
-void Set_Float4(buffer_float4*buff, const size_t indx, const float4 val) {
-    buff->data[MULT(indx, 4)] = val.x;
-    buff->data[ADD(MULT(indx, 4), 1)] = val.y;
-    buff->data[ADD(MULT(indx, 4), 2)] = val.z;
-    buff->data[ADD(MULT(indx, 4), 3)] = val.w;
-}
-
-void Add_Float2(float2* alpha, float2* beta) {
+void Add_Float2(float2* const alpha, const float2* beta) {
     alpha->x += beta->x;
     alpha->y += beta->y;
 }
@@ -155,7 +116,7 @@ float2 AddF2_Float2(const float2 alpha, const float2 beta) {
     };
     return gamma;
 }
-void Add_Float2F(float2* alpha, const float beta) {
+void Add_Float2F(float2* const alpha, const float beta) {
     alpha->x += beta;
     alpha->y += beta;
 }
@@ -166,7 +127,7 @@ float2 AddF2_Float2F(const float2 alpha, const float beta) {
     };
     return gamma;
 }
-void Add_Float3(float3* alpha, float3* beta) {
+void Add_Float3(float3* const alpha, const float3* beta) {
     alpha->x += beta->x;
     alpha->y += beta->y;
     alpha->z += beta->z;
@@ -179,96 +140,49 @@ float3 AddF3_Float3(const float3 alpha, const float3 beta) {
     };
     return gamma;
 }
-void Add_Float3F(float3* alpha, const float beta) {
+void Add_Float3F(float3* const alpha, const float beta) {
     alpha->x += beta;
     alpha->y += beta;
     alpha->z += beta;
 }
-void Add_Float3F2(float3*alpha, float2*beta, const size_t omit) {
+float3 AddF3_Float3F(const float3 alpha, const float beta) {
+    const float3 gamma={
+        alpha.x+beta,
+        alpha.y+beta,
+        alpha.z+beta
+    };
+    return gamma;
+}
+void Add_Float3F2(float3* const alpha, const float2* beta, const uint8_t omit) {
+    /* Old "slower" approach (slower would be if statements)
+    alpha->x += omit  ? beta->x : 0.0F;
+    alpha->y += !omit ? beta->x : omit==2 ? beta->y : 0.0F;
+    alpha->z += !omit ? beta->y : omit==1 ? beta->x : 0.0F; 
+
+    When we write firmware, we should expose a simple-ish library
+        for single bit or '< byte' types. A custom memory controller,
+        which would probably be needed, might be able to actually pack
+        data closer together than modern systems allow, which means we
+        could have a more "packed" memory layout and more space for 
+        more useful stuff.
     
-}
-
-float Get_Float(buffer_float* buff, const size_t indx) {
-    return buff->data[indx];
-}
-float2 Get_Float2(buffer_float2 *buffer, const size_t i) {
-    float2 c_data = { buffer->data[MULT(i,2)], buffer->data[ADD(MULT(i, 2), 1)] };
-    return c_data;
-}
-float3 Get_Float3(buffer_float3 *buffer, const size_t i) {
-    float3 c_data = { 
-        buffer->data[MULT(i,3)], 
-        buffer->data[ADD(MULT(i, 3), 1)],
-        buffer->data[ADD(MULT(i, 3), 2)]
-    };
-    return c_data;
-}
-float4 Get_Float4(buffer_float4 *buff, const size_t indx) {
-    float4 c = {
-        buff->data[MULT(indx, 4)],
-        buff->data[ADD(MULT(indx, 4), 1)],
-        buff->data[ADD(MULT(indx, 4), 2)],
-        buff->data[ADD(MULT(indx, 4), 3)],
-    };
-    return c;
-}
-
-stored_float Store_Float(buffer_float* buff, const size_t indx, const float var) {
-    buff->data[indx] = var;
-    stored_float data_p = { indx, buff };
-    return data_p;
-}
-stored_float2 Store_Float2(buffer_float2* buff, const size_t indx, const float2 var) {
-    buff->data[MULT(indx, 2)] = var.x;
-    buff->data[ADD(MULT(indx, 2), 1)] = var.y;
-    stored_float2 data_p = { indx, buff };
-    return data_p;
-}
-stored_float3 Store_Float3(buffer_float3* buff, const size_t indx, const float3 var) {
-    buff->data[MULT(indx, 3)] = var.x;
-    buff->data[ADD(MULT(indx, 3), 1)] = var.y;
-    buff->data[ADD(MULT(indx, 3), 2)] = var.z;
-    stored_float3 data_p = { indx, buff };
-    return data_p;
-}
-stored_float4 Store_Float4(buffer_float4* buff, const size_t indx, const float4 var) {
-    buff->data[MULT(indx, 4)] = var.x;
-    buff->data[ADD(MULT(indx, 4), 1)] = var.y;
-    buff->data[ADD(MULT(indx, 4), 2)] = var.z;
-    buff->data[ADD(MULT(indx, 4), 3)] = var.w;
-    stored_float4 data_p = { indx, buff };
-    return data_p;
-}
-buffer_float Create_FloatBuf(const size_t memb) {
-    const buffer_float buff = {
-        .data = SDL_malloc(memb*sizeof(float)),
-        .size = memb
-    };
-    return buff;
-}
-buffer_float2 Create_Float2Buf(const size_t members) {
-    const size_t alloc_s = MULT(members*sizeof(float), 2);
-    const buffer_float2 buffer = { 
-        .data = SDL_malloc(alloc_s), 
-        .size = members
-    };
-    return buffer;
-}
-buffer_float3 Create_Float3Buf(const size_t members) {
-    const size_t alloc_s = MULT(members*sizeof(float), 3);
-    const buffer_float3 buffer = { 
-        .data = SDL_malloc(alloc_s), 
-        .size = members
-    };
-    return buffer;
-}
-buffer_float4 Create_Float4Buf(const size_t memb) {
-    const size_t alloc_s = memb * sizeof(float) * 4;
-    const buffer_float4 buff = {
-        .data = SDL_malloc(alloc_s),
-        .size = memb
-    };
-    return buff;
+    */
+    switch (omit) {
+        case 0:
+            alpha->y += beta->x;
+            alpha->z += beta->y;
+            break;
+        case 1:
+            alpha->x += beta->x;
+            alpha->z += beta->y;
+            break;
+        case 2: 
+            alpha->x += beta->x;
+            alpha->y += beta->y;
+            break;
+        default:
+            break;
+    }
 }
 
 void Edit_Float2(float2 *var, const float xvar, const float yvar) {
@@ -285,21 +199,4 @@ void Edit_Float4(float4 *var, const float xvar, const float yvar, const float zv
     var->y = yvar;
     var->z = zvar;
     var->w = wvar;
-}
-
-void Free_FloatBuf(buffer_float* buffer) {
-    SDL_free(buffer->data);
-    buffer->size = 0;
-}
-void Free_Float2Buf(buffer_float2 *buffer) {
-    SDL_free(buffer->data);
-    buffer->size = 0;
-}
-void Free_Float3Buf(buffer_float3 *buffer) {
-    SDL_free(buffer->data);
-    buffer->size = 0;
-}
-void Free_Float4Buf(buffer_float4* buffer) {
-    SDL_free(buffer->data);
-    buffer->size = 0;
 }

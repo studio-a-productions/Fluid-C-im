@@ -32,6 +32,12 @@ typedef enum {
     CIM_LOGTYPE_INTERNALCOMPL
 } Cim_Logtype;
 
+typedef enum { // temp struct, can later be actually functional
+    CIM_SIMTYPE_WATER_2D,
+    CIM_SIMTYPE_PHYSICS_2D,
+    CIM_SIMTYPE_IDC
+} Cim_SimType;
+
 Cim_Status Cim_GetStatus();
 
 void Cim_SetLogging(const bool logging);

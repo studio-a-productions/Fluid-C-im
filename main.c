@@ -26,6 +26,7 @@ static inline int freeResources(const int exit_c) {
 }
 
 int main(int argc, char *argv[]) {
+    printf("2D WATER SIMULATION\n");
 
     if (Cim_Init != CIM_INIT)
         return CIM_ERROR;

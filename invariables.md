@@ -14,10 +14,13 @@ Here's a quick overview of all invariants per API.
 - `CIM_ERROR_NONE` == 0 
 - `Cim_GetError()` returns last error
 - `Cim_Status` updates correctly
+- `Cim_PBuffer ID` != 0
+- `CIM_USE_SIMD` shall be defined 
+- `const` use
 
 ### App API
 
-- currently NULL
+- currently `NULL`
 
 ## Cim Invariants
 
@@ -36,3 +39,15 @@ All functional logic expect the latest error to be at the most right index. Beca
 ### Cim_Status
 
 The simulation's status is important, update logic will depend on this heavily, so instead of asking if there's an error, the update can get the current status. If any event or interupt happens, make sure Cim_Status in Cim.status is updated correctly.
+
+### Cim_ParticleBuffer ID
+
+A particle's identity is linked to the amount of particles used, which ensure that the identity of a unsigned zero will is analogue to an error, so any particle creation check can be used as an if statement. 
+
+### CIM_USE_SIMD
+
+This is a macro "flag" that the user shall define or undefine depending on their needs. If defined, functions like `Cim_PBufferUpdatePos()` shall use their `_SIMDImpl` over the `_SimplImpl`. This does not care about the `PLATFORM` flag.
+
+### Const "Over"use
+
+Whether internal and private, or external and public, any function shall declare whether an input variable is `const`. This is to help the compiler optimise these functions and variables, sometimes even pre-computing parts. This is also a matter of discipline.
