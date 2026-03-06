@@ -2,6 +2,8 @@
 #include "cim_buffers.h"
 #include "cim_particle.h"
 
+#include "cim_pbehavior.h"
+
 #include "cim_error.h"
 
 struct Cim_ParticleBuffer* Cim_InitPBuffer(const size_t icapacity) {
@@ -34,7 +36,7 @@ void Cim_FreePBuffer(struct Cim_ParticleBuffer* const buffer) {
 }
 
 size_t Cim_CreateParticle(struct Cim_ParticleBuffer*const buffer, const float4 coord_vel, const int type) {
-    if ((buffer->pos_vel.size) <= (buffer->used)*CIM_PBUFFER_UPDATE_THRESHOLD)
+    if ((buffer->pos_vel.size)*CIM_PBUFFER_UPDATE_THRESHOLD <= (buffer->used))
         if (Cim_ResizePBuffer(buffer, buffer->pos_vel.size*CIM_PBUFFER_UPDATE_MULTIPLIER)) {
             Cim_AddError(CIM_ERROR_PBUFFER_ALLOC);
             return 0U;
@@ -45,7 +47,7 @@ size_t Cim_CreateParticle(struct Cim_ParticleBuffer*const buffer, const float4 c
     return ++(buffer->used);
 }
 
-// ------------------------------------------------------------------------------ or smth
+// ------------------------------------------------------------------------------ 
 
 uint8_t Cim_ResizePBuffer(struct Cim_ParticleBuffer* const buffer, const size_t n_s) {
     const size_t old = buffer->pos_vel.size;
@@ -67,7 +69,7 @@ void Cim_UpdatePBufferPos(struct Cim_ParticleBuffer*const buffer) {
 }
 #else
 void Cim_UpdatePBufferPos(struct Cim_ParticleBuffer*const buffer) {
-    for (size_t i = 0; i < buffer->pos_vel.size*2U; i += 2)
-        buffer->pos_vel.data[i] += buffer->pos_vel.data[i + 1];
+    for (size_t i = 0U; i < buffer->pos_vel.size*4U; i += 2U)
+        buffer->pos_vel.data[i] += buffer->pos_vel.data[i + 1U];
 }
 #endif

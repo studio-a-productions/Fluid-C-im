@@ -167,11 +167,6 @@
         CLAMP_TYPE((a).z, (b).z, (c).z); \
         CLAMP_TYPE((a).w, (b).w, (c).w); \
     } while(0) 
-// requires a vec2 type to clamp a normal type
-#define CLAMP_TYPEVEC2(a, b) \
-    do { \
-        CLAMP_TYPE(a, (b).x, (b).y); \
-    } while (0)
 
 /*
     The following type definitions shall be assumed to be vectors,

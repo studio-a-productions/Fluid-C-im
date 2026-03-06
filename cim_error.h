@@ -5,6 +5,17 @@
 
 // This file declares function prototypes that are defined in cim.c
 
+typedef enum {
+    CIM_ERROR_NONE, // No error
+    CIM_ERROR_ERROR, // well... something went wrong?
+    CIM_ERROR_PBUFFER_ALLOC, // An error happened during allocation
+    CIM_ERROR_PBUFFER_INVALIDARG, // The provided argument was invalid for the Particle Buffer
+    CIM_ERROR_PBUFFER_N, // Not defined error
+    CIM_ERROR_INIT, // Initialization failed
+    // other errors
+
+} Cim_Error;
+
 void Cim_AddError(const Cim_Error);
 void Cim_LogError();
 void Cim_DelError(); // Deletes the latest error

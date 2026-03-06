@@ -147,6 +147,31 @@ float4 Get_Float4(buffer_float4*const buff, const size_t indx) {
     return c;
 }
 
+float2 Deref_Float2(float*const p) {
+    float2 var = {
+        *p,
+        p[1],
+    };
+    return var;
+}
+float3 Deref_Float3(float*const p) {
+    float3 var = {
+        *p,
+        p[1],
+        p[2],
+    };
+    return var;
+}
+float4 Deref_Float4(float*const p) {
+    float4 var = {
+        *p,
+        p[1],
+        p[2],
+        p[3],
+    };
+    return var;
+}
+
 stored_float2 Store_Float2(buffer_float2*const buff, const size_t indx, const float2 var) {
     buff->data[MULT(indx, 2)] = var.x;
     buff->data[ADD(MULT(indx, 2), 1)] = var.y;

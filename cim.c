@@ -1,12 +1,11 @@
 #include "cim.h"
-#include "cim_error.h"
-#include "cim_particle.h"
 #include "common_libs.h"
+#include "cim_error.h"
 
 #define ERROR_ARRAY_SIZE 3 // may be changed at any time (dynamic/higher cap)
 
 // Maybe it's time to not care about a robust error system?
-
+static inline bool Cim_NoError(void);
 typedef struct {
     Cim_Status status;
     Cim_Error error[ERROR_ARRAY_SIZE]; /* RULE: stack from "left" to "right" svp*/
@@ -16,7 +15,13 @@ typedef struct {
 
 TypeCim Cim = { CIM_INACTIVE, 
     {CIM_ERROR_NONE, CIM_ERROR_NONE, CIM_ERROR_NONE},
-    true};
+    true
+};
+
+static inline void Cim_SetError(const Cim_Error error, const int i) {
+   Cim.error[i] = error; // we may remove the if, or not idc
+   if (Cim.log) Cim_Log(CIM_LOGTYPE_INFO, "Error Set");
+}
 
 void Cim_Log(Cim_Logtype type, char*message) {
     if (Cim.log) {
@@ -42,7 +47,7 @@ void Cim_Log(Cim_Logtype type, char*message) {
 }
 
 void Cim_LogError() {
-    const char* desc = NULL;
+    char* desc = NULL;
 
     /*
     ** While we 'could' use Cim.error, 
@@ -50,7 +55,7 @@ void Cim_LogError() {
     ** when I decide to change the TypeCim struct.
     ** 
     ** PROVEN RIGHT after I made Cim.error an array... ha!
-    */
+    */ 
 
     for (int i = 0; i < Cim.s_error; i++) {
         switch (Cim_GetErrorI(i)) {
@@ -76,24 +81,23 @@ void Cim_LogError() {
                 break;
         }
         Cim_Log(CIM_LOGTYPE_ERROR, desc);
+        Cim_SetError(CIM_ERROR_NONE, i);
     }
 }
 
-int Cim_Init(int pBuffSize) {
-    /*
-    ** Note: update this with the new improved error system
-    */
-    // Please note your own ass, thank you!
-    Cim_InitError();
 
-    Cim_AddError(Cim_InitPBuffer(pBuffSize));
-    if (Cim_GetError()) {
-        if (Cim.log) Cim_LogError();
-        return CIM_ERROR;
+
+
+Cim_Status Cim_Init() {
+    /*
+    ** Just a generic init, though functionality may be added 
+    ** later when it is needed.
+    */
+
+    if (!Cim_GetStatus()) {
+        Cim_SetStatus(CIM_INIT);
     }
-    
-    Cim.status = CIM_INIT; // no way... really?
-    return CIM_INIT;
+    return Cim_GetStatus();
 };
 
 static inline void Cim_InitError() { // not needed, but who cares?
@@ -102,14 +106,17 @@ static inline void Cim_InitError() { // not needed, but who cares?
         Cim_SetError(CIM_ERROR_NONE, i);   
 }
 
-int Cim_Quit() {
-    Cim.status = CIM_ERROR ? Cim_FreePBuffer() : CIM_INACTIVE; // remember to update this to an "if" when more functions are added
+Cim_Status Cim_Quit() {
     return Cim_GetStatus();
 }
 
 
 Cim_Status Cim_GetStatus() {
     return Cim.status;
+}
+
+void Cim_SetStatus(Cim_Status status) {
+    Cim.status = status;
 }
 
 static inline void Cim_UpdateErrorS() {
@@ -150,10 +157,6 @@ void Cim_AddError(const Cim_Error error) {
     // Who needs '{ ... }' even?
 }
 
-static inline void Cim_SetError(const Cim_Error error, const int i) {
-   Cim.error[i] = error; // we may remove the if, or not idc
-   if (Cim.log) Cim_Log(CIM_LOGTYPE_INFO, "Error Set");
-}
 
 static inline void Cim_CompactErrors(const int *set_arg, const int *lst_indx) { 
     /*

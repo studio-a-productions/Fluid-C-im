@@ -137,6 +137,10 @@ float2 Get_Float2(buffer_float2*const buff, const size_t);
 float3 Get_Float3(buffer_float3*const buff, const size_t);
 float4 Get_Float4(buffer_float4*const buff, const size_t);
 
+float2 Deref_Float2(float*const p);
+float3 Deref_Float3(float*const p);
+float4 Deref_Float4(float*const p);
+
 stored_float2 Store_Float2(buffer_float2*const buff, const size_t, const float2);
 stored_float3 Store_Float3(buffer_float3*const buff, const size_t, const float3);
 stored_float4 Store_Float4(buffer_float4*const buff, const size_t, const float4);
