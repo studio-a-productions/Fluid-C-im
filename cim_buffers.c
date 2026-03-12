@@ -1,5 +1,5 @@
-#include <SDL.h>
 #include "cim_buffers.h"
+#include <SDL.h>
 
 buffer_string Create_StringBuf(const size_t s) {
     buffer_string buff = {
@@ -24,7 +24,7 @@ void Resize_StringBuf(buffer_string*const buff, const size_t size_n) {
     char** tmp = SDL_realloc(buff->data, sizeof(char*)*size_n);
     if (tmp) { buff->data = tmp; buff->size = size_n; }
 }
-void Free_StringBuf(buffer_string*const buff) {
+void Free_StringBuf(buffer_string* buff) {
     for (size_t i = 0; i < buff->size; i++) {
         SDL_free((void*)buff->data[i]);
     }
@@ -56,7 +56,7 @@ void Resize_FloatBuf(buffer_float*const buff, const size_t s_n) {
     float*buff_n = SDL_realloc(buff->data, s_n*sizeof(float));
     if (buff_n) { buff->data = buff_n; buff->size = s_n; }
 }
-void Free_FloatBuf(buffer_float*const buffer) {
+void Free_FloatBuf(buffer_float* buffer) {
     SDL_free(buffer->data);
     buffer->data = NULL;
     buffer->size = 0;
@@ -84,14 +84,11 @@ void Resize_UIntt8Buf(buffer_uintt8*const buff, const size_t s_n) {
     uint8_t*buff_n = SDL_realloc(buff->data, s_n*sizeof(uint8_t));
     if (buff_n) { buff->data = buff_n; buff->size = s_n; }
 }
-void Free_UIntt8Buf(buffer_uintt8*const buffer) {
+void Free_UIntt8Buf(buffer_uintt8* buffer) {
     SDL_free(buffer->data);
     buffer->data = NULL;
     buffer->size = 0;
 }
-
-#ifdef CIM_MATH_H
-
 
 void Resize_Float2Buf(buffer_float2*const buffer, const size_t new_size) {
     const size_t alloc_size = MULT(new_size*sizeof(float), 2);
@@ -219,20 +216,18 @@ buffer_float4 Create_Float4Buf(const size_t memb) {
     return buff;
 }
 
-void Free_Float2Buf(buffer_float2*const buffer) {
+void Free_Float2Buf(buffer_float2* buffer) {
     SDL_free(buffer->data);
     buffer->data = NULL;
     buffer->size = 0;
 }
-void Free_Float3Buf(buffer_float3 *const buffer) {
+void Free_Float3Buf(buffer_float3* buffer) {
     SDL_free(buffer->data);
     buffer->data = NULL;
     buffer->size = 0;
 }
-void Free_Float4Buf(buffer_float4*const buffer) {
+void Free_Float4Buf(buffer_float4* buffer) {
     SDL_free(buffer->data);
     buffer->data = NULL;
     buffer->size = 0;
 }
-
-#endif

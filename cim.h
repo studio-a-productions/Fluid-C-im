@@ -1,10 +1,7 @@
 #ifndef CIM_H
 #define CIM_H
 
-#include "common_libs.h"
-
-Cim_Status Cim_Init();
-Cim_Status Cim_Quit();
+#include <stdbool.h>
 
 typedef enum {
     CIM_INACTIVE = 0, // Cim not running/no resources allocated
@@ -20,6 +17,9 @@ typedef enum {
     CIM_LOGTYPE_INFO,
     CIM_LOGTYPE_INTERNALCOMPL
 } Cim_Logtype;
+
+Cim_Status Cim_Init();
+Cim_Status Cim_Quit();
 
 Cim_Status Cim_GetStatus();
 void Cim_SetStatus();

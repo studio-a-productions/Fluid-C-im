@@ -1,15 +1,13 @@
 #ifndef CIM_MATH_H
 #define CIM_MATH_H
 
-#include <stdio.h>
-#include <SDL.h>
+#include "common_libs.h"
 #include "cim_environment.h"
 
 
 /*
     Functions declared may be unsafe, always check the result.
 */
-
 
 #define ADD(a, b) ((a)+(b))
 #define ADD3(a, b, c) ((a) + (b) + (c))
@@ -84,12 +82,6 @@
     (a) = (((a) < (b)) ? (b) : (((a) > (c)) ? (c) : (a)))
 #define CLAMP_FORTYPE(a,b,c) \
     (((a) < (b)) ? (b) : (((a) > (c)) ? (c) : (a)))
-
-#define CLAMPVEC2_TYPE(a, b, c) \
-    do { \
-        \
-    } while (0)
-
 #define CASTVEC2_TYPE(a, b, c) \
     do { \
         (a).x = (b)((c).x); \

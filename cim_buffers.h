@@ -1,6 +1,8 @@
 #ifndef CIM_BUFFERS_H
 #define CIM_BUFFERS_H
-#include <stdio.h>
+
+#include "common_libs.h"
+#include "cim_math.h"
 /*
     If you want to have cim_math support, include it before this header.
     Originally some of these functions were in cim_math, but we've 
@@ -79,24 +81,21 @@ stored_string Store_String(buffer_string* const buff, const size_t, const char*)
 char* Get_String(buffer_string*const buff, const size_t);
 void Set_String(buffer_string *const buff, const size_t, const char*);
 void Resize_StringBuf(buffer_string*const buff, const size_t);
-void Free_StringBuf(buffer_string* const buff);
+void Free_StringBuf(buffer_string* buff);
 
 buffer_float Create_FloatBuf(const size_t);
 stored_float Store_Float(buffer_float*const buff, const size_t, const float val);
 float Get_Float(buffer_float*const buff, const size_t);
 void Set_Float(buffer_float*const buff, const size_t, const float val); // If you need to pass '&', just use "[indx]" or the macro
 void Resize_FloatBuf(buffer_float*const buff, const size_t);
-void Free_FloatBuf(buffer_float*const buff);
+void Free_FloatBuf(buffer_float* buff);
 
 buffer_uintt8 Create_UIntt8Buf(const size_t);
 stored_uintt8 Store_UIntt8(buffer_uintt8*const buff, const size_t, const uint8_t val);
 uint8_t Get_UIntt8(buffer_uintt8*const buff, const size_t);
 void Set_UIntt8(buffer_uintt8*const buff, const size_t, const uint8_t val); // If you need to pass '&', just use "[indx]" or the macro
 void Resize_UIntt8Buf(buffer_uintt8*const buff, const size_t);
-void Free_UIntt8Buf(buffer_uintt8*const buff);
-
-#ifdef CIM_MATH_H
-#include "cim_math.h"
+void Free_UIntt8Buf(buffer_uintt8* buff);
 
 typedef struct buffer_float2 {
     float*data;
@@ -149,12 +148,9 @@ void Resize_Float2Buf(buffer_float2*const buff, const size_t);
 void Resize_Float3Buf(buffer_float3*const buff, const size_t);
 void Resize_Float4Buf(buffer_float4*const buff, const size_t);
 
-void Free_Float2Buf(buffer_float2*const buff);
-void Free_Float3Buf(buffer_float3*const buff);
-void Free_Float4Buf(buffer_float4*const buff);
-#endif
-#ifndef CIM_MATH_H
-#warning "math buffers not supported!"
-#endif
+void Free_Float2Buf(buffer_float2* buff);
+void Free_Float3Buf(buffer_float3* buff);
+void Free_Float4Buf(buffer_float4* buff);
+
 
 #endif

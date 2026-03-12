@@ -1,6 +1,7 @@
 #include "cim.h"
 #include "common_libs.h"
 #include "cim_error.h"
+#include <SDL.h>
 
 #define ERROR_ARRAY_SIZE 3 // may be changed at any time (dynamic/higher cap)
 

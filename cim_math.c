@@ -1,4 +1,5 @@
 #include "cim_math.h"
+#include <SDL.h>
 
 float q_sqrt( float number )
 {
@@ -36,7 +37,7 @@ float q_sqrt( float number )
     #endif
 }
 
-static inline void Normalize_Vector2(float2 *vec) {
+void Normalize_Vector2(float2 *vec) {
     if (!vec->x && !vec->y)
     return;
     const float length = q_sqrt(ADD(SQUARE(vec->x), SQUARE(vec->y)));
