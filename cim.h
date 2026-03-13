@@ -19,12 +19,13 @@ typedef enum {
 } Cim_Logtype;
 
 Cim_Status Cim_Init();
+Cim_Status Cim_SDLInit();
 Cim_Status Cim_Quit();
 
 Cim_Status Cim_GetStatus();
 void Cim_SetStatus();
 
 void Cim_SetLogging(const bool logging);
-void Cim_Log(Cim_Logtype, char*);
+void Cim_Log(Cim_Logtype, const char*);
 
 #endif

@@ -21,29 +21,30 @@ TypeCim Cim = { CIM_INACTIVE,
 
 static inline void Cim_SetError(const Cim_Error error, const int i) {
    Cim.error[i] = error; // we may remove the if, or not idc
-   if (Cim.log) Cim_Log(CIM_LOGTYPE_INFO, "Error Set");
 }
 
-void Cim_Log(Cim_Logtype type, char*message) {
+void Cim_Log(Cim_Logtype type, const char*message) {
+    SDL_LogPriority ltype;
     if (Cim.log) {
-        char *pre_message = NULL;
+        char *pre_message = "[CIM]";
         switch (type) {
             case CIM_LOGTYPE_WARNING:
-                pre_message = "[WARNING] Cim";
+                ltype = SDL_LOG_PRIORITY_WARN;
                 break;
             case CIM_LOGTYPE_ERROR:
-                pre_message = "[ERROR] Cim";
+                ltype = SDL_LOG_PRIORITY_ERROR;
                 break;
             case CIM_LOGTYPE_INFO:
-                pre_message = "[INFO] Cim";
+                ltype = SDL_LOG_PRIORITY_INFO;
                 break;
             case CIM_LOGTYPE_INTERNALCOMPL:
-                pre_message = "[COMPLICATION] Cim";
+                pre_message = "[CIM INTERNAL]";
+                ltype = SDL_LOG_PRIORITY_CRITICAL;
                 break;
             default: return;
         
         }
-        SDL_Log("%s: %s\n", pre_message, message);
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, ltype, "%s %s", pre_message, message);
     }
 }
 
@@ -75,8 +76,9 @@ void Cim_LogError() {
             case CIM_ERROR_ERROR:
                 desc = "Error System Undefined Behavior";
                 break;
-            case CIM_ERROR_NONE:
-                return;
+            case CIM_ERROR_EXT:
+                desc = "External Complication, check logs";
+                break;
             default:
                 desc = "No Description";
                 break;
@@ -97,9 +99,21 @@ Cim_Status Cim_Init() {
 
     if (!Cim_GetStatus()) {
         Cim_SetStatus(CIM_INIT);
+    } else {
+        Cim_SetStatus(CIM_ERROR);
+        Cim_AddError(CIM_ERROR_ERROR);
     }
     return Cim_GetStatus();
 };
+
+Cim_Status Cim_SDLInit() {
+    if(SDL_Init(SDL_INIT_EVERYTHING)) {
+        Cim_SetStatus(CIM_ERROR);
+        Cim_Log(CIM_LOGTYPE_INTERNALCOMPL, SDL_GetError());
+        Cim_AddError(CIM_ERROR_EXT);
+    }
+    return Cim_GetStatus();
+}
 
 static inline void Cim_InitError() { // not needed, but who cares?
     Cim.s_error = sizeof(Cim.error)/sizeof(Cim.error[0]);
@@ -108,6 +122,7 @@ static inline void Cim_InitError() { // not needed, but who cares?
 }
 
 Cim_Status Cim_Quit() {
+    Cim_SetStatus(CIM_INACTIVE);
     return Cim_GetStatus();
 }
 

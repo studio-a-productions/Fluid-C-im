@@ -12,6 +12,7 @@ typedef enum {
     CIM_ERROR_PBUFFER_INVALIDARG, // The provided argument was invalid for the Particle Buffer
     CIM_ERROR_PBUFFER_N, // Not defined error
     CIM_ERROR_INIT, // Initialization failed
+    CIM_ERROR_EXT // External complication
     // other errors
 
 } Cim_Error;
