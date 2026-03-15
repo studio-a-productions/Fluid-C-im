@@ -3,29 +3,29 @@
 // frame buffer 
 
 int AppCreateFrameBuffer(DisplayRenderer*curRenderer, const int S_W, const int S_H) {
-    if (!curRenderer->renderTarget) {
+    if (!curRenderer->rend) {
         SDL_Log("APP_RENDER: No Renderer Present!\n");
         return -1;
     }
-    if (curRenderer->frontFrame) {
+    if (curRenderer->rend) {
         SDL_Log("APP_RENDER: frame buffer already present");
         return -1;
     }
     // (SDL_PIXELFORMAT && SDL_TEXTUREACCESS can/might be changed here)
-    curRenderer->frontFrame = SDL_CreateTexture(curRenderer->renderTarget, 
+    curRenderer->mainTarget = SDL_CreateTexture(curRenderer->mainTarget, 
         SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, S_W, S_H); 
 
     return 0;
 }
 
 int AppDestroyFrameBuffer(DisplayRenderer*curRenderer) {
-    if (!curRenderer->renderTarget) {
+    if (!curRenderer->rend) {
         SDL_Log("APP_RENDER: No Renderer Present!\n");
         return -1;
     } 
-    if (curRenderer->frontFrame) {
-        SDL_DestroyTexture(curRenderer->frontFrame);
-        curRenderer->frontFrame = NULL;
+    if (curRenderer->mainTarget) {
+        SDL_DestroyTexture(curRenderer->mainTarget);
+        curRenderer->mainTarget = NULL;
     } else SDL_Log("APP_RENDER: No frame buffer to destroy");
     
     return 0;
@@ -33,7 +33,11 @@ int AppDestroyFrameBuffer(DisplayRenderer*curRenderer) {
 
 // render logic
 
-static void rendertextureprivatefunctionsmth() {
+static inline int AppCheckRenderFlags(DisplayRenderer* curRenderer) {
+    SDL_Renderer* freedom = curRenderer->rend;
+}
+
+static void AppRender(DisplayRenderer* curRenderer, SDL_Texture* texture, const int x, const int y) {
     
 }
 

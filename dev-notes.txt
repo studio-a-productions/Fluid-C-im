@@ -1,6 +1,31 @@
 DISCLAIMER: these notes are just me yapping to myself and may contain spelling mistakes
 (I know, not proffesional)
 
+Notes to future self {
+    (potential) GOOD IDEAS:
+        - a void* that points to the "on update" function of the cim or whatever, no inputs needed
+            -> obviously: re-usability
+        - a #define flag that method to save up on functions (not compiling useless shit)
+            !-> could not work with the current compile structure
+        - redoing compile method to have individual control over the sub-parts of the project (adding smaller .o's or .a's together into one big)
+            -> small fixes wouldn't require a full redo of the part
+            !-> don't if it doesn't change compile times
+    
+    
+    REMAKE APP QUIT LOGIC
+        -> if it can't be null, we don't have to check it (°`_´°)
+        i'm (not) sorry lol 
+
+
+
+}
+
+
+
+- other stuff -
+[warning: dev-rage]
+
+
 
 -- APP_RENDERER --
 TEXTURE VS SURFACE
@@ -18,14 +43,15 @@ case surface:
 
 conclusion: DO RESEARCH, and don't, I BEG, don't use ChatGPT!
 
+
 -- RENDERING PARTICLES --
 because I'll have a lot of particles, I need to optimize the rendering, but 
 this also can't clash with the particle code... using textures means I could relly 
 on the GPU, but... it's still bound to the CPU (because fuck me)
 
-I WANT TO KILL MYSELF!
 shit bruh
 aaaaaaaaaaaaaggh
+
 
 -- PARTICLE DATA --
 So... SOA of AOS? AoA is something I can use in a plane. (huh?)

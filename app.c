@@ -27,8 +27,8 @@ int AppInit(const int S_WW, const int S_WH, const int S_CW, const int S_CH) {
     }
 
     DisplayRenderer renderer = {NULL, NULL, NULL};
-    renderer.renderTarget = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer.renderTarget) {
+    renderer.rend = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer.rend) {
         SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
         return -1;
     }
@@ -36,7 +36,7 @@ int AppInit(const int S_WW, const int S_WH, const int S_CW, const int S_CH) {
         SDL_Log("AppInit Error: couldn't create frame buffers!\n");
         return -1;
     }
-    if (!renderer.frontFrame) {
+    if (!renderer.mainTarget) {
         SDL_Log("AppInit Error: frame buffer not assigned!\n");
         return -1;
     }
@@ -68,9 +68,9 @@ int AppQuit() {
         return -1;
     }
 
-    AppDestroyFrameBuffer(&App.rend);
+    if (AppDestroyFrameBuffer(&App.rend)) SDL_Log("AppQuit Error w/ destroying frame-buffer\n");
     
-    if (App.rend.renderTarget) SDL_DestroyRenderer(App.rend.renderTarget);
+    if (App.rend.rend) SDL_DestroyRenderer(App.rend.rend);
     else SDL_Log("APP_QUIT: No Renderer to destroy \n");
     if (App.win) SDL_DestroyWindow(App.win);
     else SDL_Log("APP_QUIT: No Window to destroy\n");

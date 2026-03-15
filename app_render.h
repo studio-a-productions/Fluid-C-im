@@ -3,8 +3,8 @@
 #include "common_libs.h"
 
 typedef struct {
-    SDL_Texture* frontFrame;
-    SDL_Renderer* renderTarget;
+    SDL_Texture* mainTarget;
+    SDL_Renderer* rend;
 } DisplayRenderer;
 
 enum size_modes {
