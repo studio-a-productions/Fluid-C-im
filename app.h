@@ -1,13 +1,12 @@
 #ifndef APP_H
 #define APP_H
 
-#include "common_libs.h"
-#include "app_ghelper.h"
+#include "app_comlib.h"
 
 int AppInit(const int, const int, const int, const int);
 void AppUpdate();
 int AppQuit();
 
-bool AppRunning();
+uint8_t AppRunning();
 
 #endif

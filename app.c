@@ -1,47 +1,50 @@
 #include "app.h"
+#include "app_log.h"
 #include "app_render.h"
 #include "app_assets.h"
+#include "app_comlib.h"
+#include <SDL.h>
 
 struct AppStruct {
     SDL_Window* win;
     DisplayRenderer rend;
-    bool running;
+    uint8_t running;
 };
 
 struct AppStruct App = { NULL, NULL, false };
 
 int AppInit(const int S_WW, const int S_WH, const int S_CW, const int S_CH) {
     if (App.running) {
-        SDL_Log("AppInit Error: App is already running");
+        AppLogError(LOG_INIT, "App is already running!");
         return -1;
     }
     
     if (SDL_Init(SDL_INIT_EVERYTHING)) {
-        SDL_Log("AppInit Error w/ SDL_Init: %s\n", SDL_GetError());
+        AppLogCrit(LOG_INIT, "SDL_Init failure: %s", SDL_GetError());
         return -1;
     }
     App.win = SDL_CreateWindow("Fluid Sim", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, S_WW, S_WH, SDL_WINDOW_SHOWN);
     if (!App.win) {
-        SDL_Log("AppInit Error w/ SDL_Window: %s\n", SDL_GetError());
+        AppLogCrit(LOG_INIT, "Window creation failure: %s", SDL_GetError());
         return -1;
     }
 
     DisplayRenderer renderer = {NULL, NULL, NULL};
     renderer.rend = SDL_CreateRenderer(App.win, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer.rend) {
-        SDL_Log("AppInit Error w/ SDL_Renderer: %s\n", SDL_GetError());
+        AppLogCrit(LOG_GFX_INIT, "Renderer creation failure: %s", SDL_GetError());
         return -1;
     }
     if (AppCreateFrameBuffer(&renderer, S_CW, S_CH)) {
-        SDL_Log("AppInit Error: couldn't create frame buffers!\n");
+        AppLogCrit(LOG_GFX_INIT, "Couldn't create FrameBuffers!");
         return -1;
     }
     if (!renderer.mainTarget) {
-        SDL_Log("AppInit Error: frame buffer not assigned!\n");
+        AppLogCrit(LOG_GFX_INIT, "Couldn't assign TargetFrameBuffer");
         return -1;
     }
     App.rend = renderer;
-    App.running = true;
+    App.running = 1U;
     return 0;
 }
 
@@ -50,7 +53,7 @@ void AppUpdate() {
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
-                App.running = false;
+                App.running = 0U;
                 break;
             case SDL_WINDOWEVENT_DISPLAY_CHANGED:
                 // the window will automatically try to resize itself to not take up 100% of the screen
@@ -68,12 +71,12 @@ int AppQuit() {
         return -1;
     }
 
-    if (AppDestroyFrameBuffer(&App.rend)) SDL_Log("AppQuit Error w/ destroying frame-buffer\n");
+    if (AppDestroyFrameBuffer(&App.rend)) AppLogCrit(LOG_GFX_QUIT, "Couldn't destroy FrameBuffers");
     
     if (App.rend.rend) SDL_DestroyRenderer(App.rend.rend);
-    else SDL_Log("APP_QUIT: No Renderer to destroy \n");
+    else AppLogWarn(LOG_GFX_QUIT, "No renderer to destroy");
     if (App.win) SDL_DestroyWindow(App.win);
-    else SDL_Log("APP_QUIT: No Window to destroy\n");
+    else AppLogWarn(LOG_QUIT, "No window to destroy");
 
     App.win = NULL;
 
@@ -82,6 +85,6 @@ int AppQuit() {
 }
 
 // dayum!!!
-bool AppRunning() {
+uint8_t AppRunning() {
     return App.running;
 }
